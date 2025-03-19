@@ -70,11 +70,12 @@
                 Password:
                 <input type="password" name="txtPassword" placeholder="123..."><br><br>
                 <button>submit</button>
-                 <%
+                
+                <%
                     String message = request.getAttribute("message") + "";
                     message = message.equals("null")?"": message;
                 %>
-             <h4 style="color: red"><%=message%></h4>
+                <h4 style="color: red"><%=message%></h4>
             </div>
         </div>
     </form>

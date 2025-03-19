@@ -123,6 +123,35 @@ public class ProjectDAO implements IDAO<ProjectDTO, String>{
         return list;
     }
 
+     public ProjectDTO readbyIntProject_ID(int id) {
+        String sql = "SELECT * "
+                + "FROM [tblStartupProjects]"
+                + " WHERE project_id = ? ";
+           
+        try {
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id); //truyền dữ liệu
+            //lấy dữ liệu từ cái bảng 
+            ResultSet rs = ps.executeQuery();
+         
+            while(rs.next()){
+                ProjectDTO pro = new ProjectDTO(
+                        rs.getInt("project_id") , 
+                        rs.getString("project_name") , 
+                        rs.getString("Description") , 
+                        rs.getString("Status") , 
+                        rs.getString("estimated_launch") );
+               return pro;
+               
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return null;
+    }
+     
+     
     @Override
     public boolean update(ProjectDTO entity) {
         String sql = "UPDATE [tblStartupProjects] SET "

@@ -5,7 +5,7 @@
  */
 package dao;
 
-import dto.ProjectDTO;
+
 import dto.UserDTO;
 import java.util.List;
 import java.util.Scanner;
@@ -16,7 +16,7 @@ import java.util.Scanner;
  */
 public class Test {
     public static void main(String[] args) {
-        ProjectDAO pd = new ProjectDAO();
+       // ProjectDAO pd = new ProjectDAO();
         UserDAO ud = new UserDAO();
 //        ProjectDTO pt = new ProjectDTO(1, "Ban_Bao_Cao", "Co_Qua_Hanh_Chanh_Cuc_Hai_Quan_Thuong_Phuoc", "Ideation", "03-02-2020");
 //        pd.create(pt);

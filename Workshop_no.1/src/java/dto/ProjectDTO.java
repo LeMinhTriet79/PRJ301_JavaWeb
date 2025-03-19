@@ -25,6 +25,11 @@ public class ProjectDTO {
     }
 
     public ProjectDTO() {
+        this.project_id = 0;
+        this.project_name ="";
+        this.description = "";
+        this.status = "";
+        this.estimated_launch = "";
     }
 
     public int getProject_id() {

@@ -131,7 +131,7 @@
             <td><%= p.getEstimated_launch() %></td>
             <td style="background: lightgray;
     border: 2px outset gray;
-    font-weight: bold; text-align: center"><a href="update.jsp"><img src="images/Gartoon-Team-Gartoon-Misc-Stock-Edit-Bookmarks.512.png" width="25px"/></a></td>
+    font-weight: bold; text-align: center"><a href="update.jsp" ><img src="images/Gartoon-Team-Gartoon-Misc-Stock-Edit-Bookmarks.512.png" width="25px"/></a></td>
         </tr>
         
            <%     

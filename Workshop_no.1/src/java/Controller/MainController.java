@@ -41,6 +41,14 @@ public class MainController extends HttpServlet {
      UserDTO user = udao.readbyID(strUserID);
      return user;
     }
+    
+     private ProjectDTO getProject(int intProject_id){
+     ProjectDAO prodao = new ProjectDAO();
+     //Đối tượng được khởi tạo mang cái dữ liệu vừa lấy ra từ DB
+     ProjectDTO pro = prodao.readbyIntProject_ID(intProject_id);
+     return pro;
+    }
+    
     //Hàm xác nhận tính đúng sai phải trái ba xàm ba láp
     private boolean isValidLogin(String txtUserID, String txtPassword){
        //getUser(txtUserID) - khứa này chính là cái nguyên thằng user
@@ -62,6 +70,7 @@ public class MainController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -108,8 +117,8 @@ public class MainController extends HttpServlet {
          request.setAttribute("searchTerm", searchTerm); //Cái này tương tự vậy, mục đích của nó là để giữ lại cái dữ liệu vừa nhập trên thanh tìm kiếm, mà không bị mất đi
 
         //lấy dữ liệu của project, thông qua truyền giá trị từ biến searchTerm lấy từ thanh tìm kiếm bên trang search.jsp 
-        List<ProjectDTO> project = projectDAO.searchbyName(searchTerm);//Khởi tạo một danh sách để nhận các đối tượng được truy vấn từ DB
-        request.setAttribute("project", project); //Tạo một biến để lưu project, và qua bên trang Search để GET lấy ra kết quá - truyền giá trị/liên lạc thông tin
+        List<ProjectDTO> projects = projectDAO.searchbyName(searchTerm);//Khởi tạo một danh sách để nhận các đối tượng được truy vấn từ DB
+        request.setAttribute("projects", projects); //Tạo một biến để lưu project, và qua bên trang Search để GET lấy ra kết quá - truyền giá trị/liên lạc thông tin
                  
              }else{
                  //Nếu đăng nhập sai thì in ra cái dòng thông báo trang login
@@ -123,8 +132,28 @@ public class MainController extends HttpServlet {
                  PrintWriter out = response.getWriter();
                  //Khai lệnh hủy phiên làm việc
                  request.getSession().invalidate(); //Giống lịnh mở nhưng buộc phải có đuôi .invalidate()
-                 out.println("<b>Bạn đã đăng xuất</b><br/>");
-                 out.println("<a href='MainController'>Back to login page!</b>");
+                 out.println("<html>");
+    out.println("<head>");
+    out.println("<meta charset=\"UTF-8\">");
+    out.println("<title>Login</title>");
+    out.println("<style>");
+    out.println("body { font-family: Tahoma, sans-serif; background-color: #dfdfdf; display: flex; justify-content: center; align-items: center; height: 100vh; }");
+    out.println(".window { width: 300px; background: silver; border: 2px solid black; padding: 10px; box-shadow: 5px 5px 0px gray; }");
+    out.println(".title-bar { background: navy; color: white; padding: 5px; font-weight: bold; font-size: 21px; width: 100%; margin: -10px; padding: 10px; }");
+    out.println(".content { padding: 2px; margin: 10px 0px 0px -2px; font-size: 15px; font-weight: bold; }");
+    out.println("</style>");
+    out.println("</head>");
+    out.println("<body>");
+    out.println("<div class=\"window\">");
+    out.println("<div class=\"title-bar\">Logout</div>");
+    out.println("<div class=\"content\">");
+    out.println("<p>You have logged out successfully.</p>");
+    out.println("<p><a href=\"login.jsp\">Back to login page</a></p>");  // Liên kết quay lại trang đăng nhập
+    out.println("</div>");
+    out.println("</div>");
+    out.println("</body>");
+    out.println("</html>");
+    
                 return;
 
             }else if(action.equals("search")){ //Sau khi bấm nút của form bên search.jsp thì action nó sẽ là search, nó sẽ ở lại trang, mà không bị thoát ra
@@ -138,9 +167,110 @@ public class MainController extends HttpServlet {
                 request.setAttribute("searchTerm", searchTerm); //Cái này tương tự vậy, mục đích của nó là để giữ lại cái dữ liệu vừa nhập trên thanh tìm kiếm, mà không bị mất đi
 
         //lấy dữ liệu của project, thông qua truyền giá trị từ biến searchTerm lấy từ thanh tìm kiếm bên trang search.jsp 
-        List<ProjectDTO> project = projectDAO.searchbyName(searchTerm);//Khởi tạo một danh sách để nhận các đối tượng được truy vấn từ DB
-        request.setAttribute("project", project); //Tạo một biến để lưu project, và qua bên trang Search để GET lấy ra kết quá - truyền giá trị/liên lạc thông tin
-                 
+        List<ProjectDTO> projects = projectDAO.searchbyName(searchTerm);//Khởi tạo một danh sách để nhận các đối tượng được truy vấn từ DB
+        request.setAttribute("projects", projects); //Tạo một biến để lưu project, và qua bên trang Search để GET lấy ra kết quá - truyền giá trị/liên lạc thông tin
+   //=============================================================================================      
+//Thêm dự dán mới   - tạo trang project_form
+            } else if(action.equals("add")){ // Cần phải tạp ra project_form.jsp để thực hiện việc thêm dự án
+                //Mở try - catch để bắt lỗi nếu nhập không đúng kiểu dữ liệu
+                try {
+                    //Tạo một biến boolean để xét đúng sai phải trái
+                    boolean checkError = false;//mặc định là false
+                    //Lấy dữ liệu từ  bên trang project_form.jsp
+                    String txtProject_id = request.getParameter("txtProject_id");
+                    String txtProject_name = request.getParameter("txtProject_name");
+                    String txtDescription = request.getParameter("txtDescription");
+                    String txtStatus = request.getParameter("txtStatus");
+                    String txtEstimated_launch = request.getParameter("txtEstimated_launch");
+                    
+                    //Lưu những thứ vừa nhập vào để đem nó qua trang kia, mục đích là giữ lại nó trên thanh nếu người dùng nhập tào lao.
+                    //setAttribute
+                    request.setAttribute("txtProject_id", txtProject_id);
+                    request.setAttribute("txtProject_name", txtProject_name);
+                    request.setAttribute("txtDescription", txtDescription);
+                    request.setAttribute("txtStatus", txtStatus);
+                    request.setAttribute("txtEstimated_launch", txtEstimated_launch);
+                    //một biến để chuyển mã id dự án
+                    int intProject_id = 0;
+                    
+                    //PHẦN BẮT LỖI
+                    //1. ID project
+                   //bỏ trống hoặc nhập sai kiểu dữ liệu
+                   //Kiểm tra Mã số Dự Án
+                    if (txtProject_id == null || txtProject_id.trim().isEmpty()) {
+                        checkError = true; //có lỗi
+                        request.setAttribute("ProjecID_error", " must be an integer data type");
+                    } else {
+                        try {
+                            intProject_id = Integer.parseInt(txtProject_id);
+                            if (intProject_id == 0) {
+                                checkError = true;
+                                request.setAttribute("ProjecID_error", " must be an integer data type");
+
+                            }
+                            // Kiểm tra nếu dự án đã tồn tại (tránh trùng lặp ID)
+                            ProjectDTO existingProject = getProject(intProject_id);
+                            if (existingProject != null) {
+                                checkError = true;
+                                request.setAttribute("ProjecID_error", " already exists.");
+                            }
+                       } catch (NumberFormatException e) {
+                           checkError = true;
+                           request.setAttribute("ProjecID_error", " must be an integer data type");
+                       }
+                      
+                   } 
+                   
+                   if(txtProject_name == null || txtProject_name.trim().isEmpty()){
+                       checkError = true;
+                      request.setAttribute("Project_name_error", "can not empty");
+                   }
+                   if(txtDescription == null || txtDescription.trim().isEmpty()){
+                       checkError = true;
+                      request.setAttribute("Description_error", "can not empty");
+                   }
+                   if(txtStatus == null || txtStatus.trim().isEmpty()){
+                       checkError = true;
+                      request.setAttribute("Status_error", "can not empty");
+                   }
+                   if(txtEstimated_launch == null || txtEstimated_launch.trim().isEmpty()){
+                       checkError = true;
+                      request.setAttribute("Estimated_launch_error", "can not empty");
+                   }
+                   
+                   //Khởi tạo đối tượng từ ProjectDTO, rồi thêm nó vô cơ sở dữ liệu
+                   //Thông qua dữ liệu được truyền từ bên trang project_form.jsp
+                   ProjectDTO project = new ProjectDTO(intProject_id, txtProject_name, txtDescription, txtStatus, txtEstimated_launch);
+                   //Sau khi khởi tạo được đối tượng xong thì tới phần check lỗi
+                   //Nếu không bị lỗi thù tạo cái project vào DB rồi trở lại trang searh.jsp để hiển thị ra màn hình
+                   if(!checkError){
+                       projectDAO.create(project);
+                       //trở lại trang search để hiện kết quả
+                       url = "search.jsp";
+                   //Lấy dữ liệu vừa nhập vào trên thanh tìm kiếm 
+        String searchTerm = request.getParameter("searchTerm");
+        if (searchTerm == null) {//Nếu không có gì trong thanh tìm kiếm thì trả về không gì hết(null)
+            searchTerm = "";
+        } // sau khi if xong thì gán giá trị để truyền bên trang search.jsp luôn, phải để như vậy không thôi nó không giữ được giá trị
+         request.setAttribute("searchTerm", searchTerm); //Cái này tương tự vậy, mục đích của nó là để giữ lại cái dữ liệu vừa nhập trên thanh tìm kiếm, mà không bị mất đi
+
+        //lấy dữ liệu của project, thông qua truyền giá trị từ biến searchTerm lấy từ thanh tìm kiếm bên trang search.jsp 
+        List<ProjectDTO> projects = projectDAO.searchbyName(searchTerm);//Khởi tạo một danh sách để nhận các đối tượng được truy vấn từ DB
+        request.setAttribute("projects", projects); //Tạo một biến để lưu project, và qua bên trang Search để GET lấy ra kết quá - truyền giá trị/liên lạc thông tin
+                     
+                      
+                   } else { // ngược lại thì vẫn ở lại trang Project_form
+                       request.setAttribute("project", project);//cái này để đem cái đối tượng vừa đúc khuôn quăng qua project_form.jsp
+                       url = "project_form.jsp";
+                       
+                   }
+                   
+                } catch (Exception e) {
+                    log(e.toString());
+                }
+            } else if(action.equals("update")){
+                url ="update.jsp";
+                
             }
         } catch (Exception e) {
             System.out.println(e.toString());

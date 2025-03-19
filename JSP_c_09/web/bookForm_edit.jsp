@@ -18,7 +18,7 @@
            
             List<BookDTO> books = (List<BookDTO>) request.getAttribute("books");
             try {
-                    book = (BookDTO) request.getAttribute("book");
+                   BookDTO book = (BookDTO) request.getAttribute("book");
                     
                 } catch (Exception e) {
                 }
