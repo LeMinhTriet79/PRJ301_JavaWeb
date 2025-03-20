@@ -106,69 +106,7 @@ public class MainController extends HttpServlet {
 
                 List<CategoriesDTO> categories = categoriesDAO.search(searchTerm);
                 request.setAttribute("categories", categories);
-            } else if(action.equals("add")){
-                try {
-                    boolean checkError = false;
-                    String txtCategory_id = request.getParameter("txtCategory_id");
-                    String txtCategory_name = request.getParameter("txtCategory_name");
-                    String txtDescription = request.getParameter("txtDescription");
-                    
-                    request.setAttribute("txtCategory_id", txtCategory_id);
-                    request.setAttribute("txtCategory_name", txtCategory_name);
-                    request.setAttribute("txtDescription", txtDescription);
-
-                    String categoryId = "";
-                    
-                    if (txtCategory_id == null || txtCategory_id.trim().isEmpty()) {
-                        checkError = true;
-                        request.setAttribute("CategoryID_error", "ID must not be empty.");
-                    } else {
-                        try {
-                            categoryId = txtCategory_id;
-                            CategoriesDTO existingCategory = getCategory(categoryId);
-                            if (existingCategory != null) {
-                                checkError = true;
-                                request.setAttribute("CategoryID_error", "ID already exists.");
-                            }
-                        } catch (Exception e) {
-                            checkError = true;
-                            request.setAttribute("CategoryID_error", "Invalid ID format.");
-                        }
-                    }
-                    
-                    if(txtCategory_name == null || txtCategory_name.trim().isEmpty()){
-                        checkError = true;
-                        request.setAttribute("Category_name_error", "Category name cannot be empty.");
-                    }
-                    if(txtDescription == null || txtDescription.trim().isEmpty()){
-                        checkError = true;
-                        request.setAttribute("Description_error", "Description cannot be empty.");
-                    }
-
-                    CategoriesDTO category = new CategoriesDTO(categoryId, txtCategory_name, txtDescription);
-                    
-
-                    if(!checkError){
-                        categoriesDAO.create(category);
-                        url = "search.jsp";
-                        String searchTerm = request.getParameter("searchTerm");
-                        if (searchTerm == null) {
-                            searchTerm = "";
-                        }
-                        request.setAttribute("searchTerm", searchTerm);
-                        
-                        List<CategoriesDTO> categories = categoriesDAO.search(searchTerm);
-                        request.setAttribute("categories", categories);
-                    } else {
-                        request.setAttribute("category", category);
-                        url = "category_form.jsp";
-                    }
-                } catch (Exception e) {
-                    log(e.toString());
-                }
-            } else if(action.equals("update")){
-                url = "update.jsp";
-            }
+            }  
         } catch (Exception e) {
             System.out.println(e.toString());
         } finally {
