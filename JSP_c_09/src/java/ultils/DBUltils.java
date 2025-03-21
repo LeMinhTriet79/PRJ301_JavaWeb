@@ -11,14 +11,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/*
-Khánh KT với TITV cũng có khác gì nhau
-mỗi người mỗi vẻ...10 phân vẹn 10
-......Idol đúng gắt.....
-TITV:
-System.out.println("Mày tưởng tao hiền hả mậy?");
-System.out.println("Chết mày chưa, cho mày vừa!");
- */
+
 /**
  *       
  * @author Minh Triet
