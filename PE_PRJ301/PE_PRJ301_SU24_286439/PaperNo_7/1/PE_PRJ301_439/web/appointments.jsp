@@ -22,7 +22,10 @@
         <%
             if(acc.getRoleDB().equals("super")){ %>
                 <a href="create.jsp" style="color: blue">Create</a>
-          <%  } %>
+                
+          <%  }else{ %>
+                If you are admin, you can create a appointments
+          <%}%>
         
         
        
@@ -54,7 +57,7 @@
           <tr>
               <th><%= app.getIdApp()%></th>
               <th><%=app.getAccount() %></th>
-              <th><%=app.getPartnerPhone() %></th>
+              <th><%=app.getPartnerName()%></th>
               <th><%=app.getPartnerPhone() %></th>
               <th><%=app.getTimeToMeet() %></th>
               <th><%=app.getPlace()%></th>
