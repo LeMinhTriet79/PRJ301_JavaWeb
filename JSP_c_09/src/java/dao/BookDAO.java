@@ -69,7 +69,7 @@ public class BookDAO implements IDAO<BookDTO, String> {
         return null;
     }
 
-    public List<BookDTO> searchByTitle(String searchTerm) {
+   public List<BookDTO> searchByTitle(String searchTerm) {
         String sql = "SELECT [BookID]\n"
                 + "      ,[Title]\n"
                 + "      ,[Author]\n"

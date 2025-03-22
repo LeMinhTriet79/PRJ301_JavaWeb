@@ -16,8 +16,8 @@
         <form action="MainController" method="POST">
             <input type="hidden" name="action" value="login" />
             Username <input type="text" name="txtUsername"/> <br/>
-            Password <input type="password" name="txtUsername"/><br/>
-            <input type="submit" value="Submit" />
+            Password <input type="password" name="txtPassword"/><br/>
+            <input type="submit" value="Login" />
             
             <%
                 String message = request.getAttribute("message") + "";

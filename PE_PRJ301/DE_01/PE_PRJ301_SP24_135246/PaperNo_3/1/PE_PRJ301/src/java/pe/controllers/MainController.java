@@ -53,12 +53,21 @@ public class MainController extends HttpServlet {
                 
                 // xác thực
                 if (isValidLogin(txtUsername, txtPassword)) {
-                    url = "currencyExchangeRate.html";
+                    url = "currencyExchangeRate.jsp";
+                    UserDTO user = getUser(txtUsername);
+                    request.getSession().setAttribute("user", user);
+                   
                 } else{
                   request.setAttribute("message", "Incorrect password or username");
                   url = "login.jsp";
                 }
                 
+            }else if (action != null && action.equals("logout")){
+                  url = LOGIN_PAGE;
+                  request.getSession().invalidate();
+                  
+            }else if (action != null && action.equals("searchForm")){
+                url = "error.jsp";
             }
             
         } catch (Exception e) {
