@@ -1,0 +1,126 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+    text-align: center;
+}
+
+/* Thanh menu */
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #F2FDD2;
+    padding: 10px 30px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 60px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo */
+.LOGO img {
+    width: 90px;
+    height: auto;
+    transform: scale(1);
+}
+
+/* Menu */
+nav ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+    margin-left: 18%;
+}
+
+nav ul li {
+    display: inline-block;
+}
+
+nav ul li a {
+    font-size: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #333;
+    padding: 8px 15px;
+    transition: 0.3s;
+}
+
+nav ul li a:hover {
+    color: #76A54D;
+}
+
+/* Nút Đăng nhập */
+.login-btn {
+    background-color: #D2E5BC;
+    border: 1px solid #999;
+    padding: 6px 12px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #333;
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background-color: #BFD7A0;
+}
+
+/* Container chính */
+.container {
+    max-width: 800px; 
+    margin: 180px auto; /* Tăng khoảng cách để tránh dính vào menu */
+    padding: 25px;
+    background: #F2FDD2; /* Màu nền nhẹ nhàng */
+    border-radius: 15px; /* Bo góc */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
+    text-align: center;
+}
+
+/* Tiêu đề */
+.container h2 {
+    color: #4CAF50; /* Màu xanh lá */
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Thêm icon vào tiêu đề */
+.container h2::before {
+    content: "📍";
+    font-size: 28px;
+}
+
+/* Thông tin liên hệ */
+.contact-info {
+    text-align: left;
+    margin-top: 15px;
+}
+
+.contact-info p {
+    font-size: 18px;
+    line-height: 1.8;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+}
+
+
+
+/* Tô đậm phần thông tin */
+.contact-info p b {
+    color: #4CAF50;
+}
